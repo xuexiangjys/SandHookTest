@@ -114,9 +114,25 @@
 -keep class **.R$* {*;}
 
 #===================================混淆保护自己项目的部分代码以及引用的第三方jar包library=============================#######
-#如果引用了v4或者v7包
+# 不对android.support包下的代码警告。(如果打包的版本低于support包下某些类的使用版本，会出现警告)
 -dontwarn android.support.**
-
+# Understand the @Keep support annotation.
+# 不混淆Keep类
+-keep class android.support.annotation.Keep
+# 不混淆使用了注解的类和类成员
+-keep @android.support.annotation.Keep class * {*;}
+# 如果类中有使用了注解的方法，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep <methods>;
+}
+# 如果类中有使用了注解的字段，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep <fields>;
+}
+# 如果类中有使用了注解的构造函数，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep <init>(...);
+}
 
 # AndroidX 防止混淆
 -dontwarn com.google.android.material.**
@@ -128,6 +144,22 @@
 -keep interface androidx.** {*;}
 -keepclassmembers class * {
     @androidx.annotation.Keep *;
+}
+# 不混淆Keep类
+-keep class androidx.annotation.Keep
+# 不混淆使用了注解的类和类成员
+-keep @androidx.annotation.Keep class * {*;}
+# 如果类中有使用了注解的方法，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @androidx.annotation.Keep <methods>;
+}
+# 如果类中有使用了注解的字段，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @androidx.annotation.Keep <fields>;
+}
+# 如果类中有使用了注解的构造函数，则不混淆类和类成员
+-keepclasseswithmembers class * {
+    @androidx.annotation.Keep <init>(...);
 }
 
 # zxing
@@ -253,3 +285,18 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+
+# SandHook
+-keep class com.swift.sandhook.** { *; }
+-keep @com.swift.sandhook.annotation.* class * {*;}
+-keep class * {
+    @com.swift.sandhook.annotation.* <fields>;
+}
+-keepclassmembers class * {
+    @com.swift.sandhook.annotation.* <methods>;
+}
+
+# Hook的目标类
+-keep class com.xuexiang.sandhooktest.core.entity.** {*;}
+

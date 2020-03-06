@@ -74,6 +74,7 @@ public class ClassMethodHooker {
         Log.e("TestClassHook", "staticMethodHook be hooked");
         try {
             //Hook后进行+1的处理
+            XToastUtils.toast("staticMethodHook be hooked");
             return (int) staticMethodBackup.invoke(null, a, b) + 1;
         } catch (Exception e) {
             e.printStackTrace();

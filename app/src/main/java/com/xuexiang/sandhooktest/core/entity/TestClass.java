@@ -19,12 +19,15 @@ package com.xuexiang.sandhooktest.core.entity;
 
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
 /**
  * 测试类
  *
  * @author xuexiang
  * @since 2020/3/6 2:00 AM
  */
+@Keep
 public class TestClass {
 
     private int a;
@@ -37,6 +40,7 @@ public class TestClass {
 
     }
 
+    @Keep
     public TestClass(int a, String b, float c) {
         this.a = a;
         this.b = b;
@@ -52,6 +56,7 @@ public class TestClass {
     /**
      * 抛出异常的方法
      */
+    @Keep
     public void errorMethod () {
         a++;
         throw new RuntimeException("test exception");
@@ -64,6 +69,7 @@ public class TestClass {
      * @param arg2
      * @return
      */
+    @Keep
     public static int staticMethodHook(int arg1, int arg2) {
         int total = arg1 + arg2;
         Log.e("TestClass", "call staticMethodHook origin");

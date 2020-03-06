@@ -10,7 +10,7 @@
 
 ## 支持 OS
 
-5.0 - 9.0
+4.4 - 10.0
 
 ## 支持架构
 
@@ -32,7 +32,7 @@
 ### 增加依赖
 
 ```
-    implementation 'com.swift.sandhook:hooklib:3.4.0'
+    implementation 'com.swift.sandhook:hooklib:4.1.7'
 ```
 
 ### 定义Hook类
@@ -91,7 +91,8 @@ private void initSandHook() {
                 ActivityHooker.class,
                 LogHooker.class,
                 ObjectHooker.class,
-                ClassMethodHooker.class
+                ClassMethodHooker.class,
+                JNIHooker.class
         );
     } catch (HookErrorException e) {
         e.printStackTrace();
@@ -102,4 +103,19 @@ private void initSandHook() {
 
 ## 混淆配置
 
+```
+# SandHook
+-keep class com.swift.sandhook.** { *; }
+-keep @com.swift.sandhook.annotation.* class * {*;}
+-keep class * {
+    @com.swift.sandhook.annotation.* <fields>;
+}
+-keepclassmembers class * {
+    @com.swift.sandhook.annotation.* <methods>;
+}
 
+
+
+## 这里填你需要Hook的类
+-keep class com.xuexiang.sandhooktest.core.entity.** {*;}
+```
