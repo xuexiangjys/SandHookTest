@@ -22,8 +22,19 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
+        }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+        ndk {
+            // abiFiliter： ABI 过滤器（application binary interface，应用二进制接口）
+            // Android 支持的 CPU 架构
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'//, 'armeabi' 不支持了
         }
     }
 
@@ -48,6 +59,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (isNeedPackage.toBoolean()) {
                 signingConfig signingConfigs.release
@@ -72,6 +84,12 @@ android {
 
             signingConfig signingConfigs.debug
             buildConfigField "String", "APP_ID_UMENG", '""'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
     }
 

@@ -17,6 +17,8 @@
 
 package com.xuexiang.sandhooktest.core.entity;
 
+import android.util.Log;
+
 /**
  * 测试类
  *
@@ -31,6 +33,10 @@ public class TestClass {
 
     float c;
 
+    public TestClass() {
+
+    }
+
     public TestClass(int a, String b, float c) {
         this.a = a;
         this.b = b;
@@ -38,8 +44,30 @@ public class TestClass {
     }
 
 
-    public float getC () {
+    public float getC() {
         return c;
+    }
+
+
+    /**
+     * 抛出异常的方法
+     */
+    public void errorMethod () {
+        a++;
+        throw new RuntimeException("test exception");
+    }
+
+    /**
+     * Hook 静态方法
+     *
+     * @param arg1
+     * @param arg2
+     * @return
+     */
+    public static int staticMethodHook(int arg1, int arg2) {
+        int total = arg1 + arg2;
+        Log.e("TestClass", "call staticMethodHook origin");
+        return total;
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.swift.sandhook.SandHook;
 import com.swift.sandhook.wrapper.HookErrorException;
 import com.xuexiang.sandhooktest.core.hook.ActivityHooker;
 import com.xuexiang.sandhooktest.core.hook.ClassMethodHooker;
+import com.xuexiang.sandhooktest.core.hook.JNIHooker;
 import com.xuexiang.sandhooktest.core.hook.LogHooker;
 import com.xuexiang.sandhooktest.core.hook.ObjectHooker;
 import com.xuexiang.sandhooktest.utils.sdkinit.UMengInit;
@@ -70,7 +71,8 @@ public class MyApp extends Application {
                     ActivityHooker.class,
                     LogHooker.class,
                     ObjectHooker.class,
-                    ClassMethodHooker.class
+                    ClassMethodHooker.class,
+                    JNIHooker.class
             );
         } catch (HookErrorException e) {
             e.printStackTrace();

@@ -19,9 +19,8 @@ package com.xuexiang.sandhooktest.fragment;
 
 import android.util.Log;
 
-import com.xuexiang.sandhooktest.R;
-import com.xuexiang.sandhooktest.core.BaseFragment;
 import com.xuexiang.sandhooktest.core.BaseSimpleListFragment;
+import com.xuexiang.sandhooktest.core.entity.JNIApi;
 import com.xuexiang.sandhooktest.core.entity.TestClass;
 import com.xuexiang.xpage.annotation.Page;
 
@@ -39,8 +38,11 @@ public class TestFragment extends BaseSimpleListFragment {
     @Override
     protected List<String> initSimpleData(List<String> lists) {
         lists.add("测试Hook Log.w(tag, message)方法");
-        lists.add("测试Object的toString方法");
-        lists.add("测试TestClass的构造方法");
+        lists.add("测试Hook Object的toString方法");
+        lists.add("测试Hook TestClass的构造方法");
+        lists.add("测试Hook TestClass的静态方法");
+        lists.add("测试Hook TestClass的异常方法");
+        lists.add("测试Hook JNI方法");
         return lists;
     }
 
@@ -59,6 +61,17 @@ public class TestFragment extends BaseSimpleListFragment {
             case 2:
                 //Hook TestClass的构造方法
                 new TestClass(12, "哈哈", 12.45F);
+                break;
+            case 3:
+                //Hook TestClass的静态方法
+                int result = TestClass.staticMethodHook(1, 2);
+                Log.e("xuexiang", "result = " + result);
+                break;
+            case 4:
+                new TestClass().errorMethod();
+                break;
+            case 5:
+                new JNIApi().stringFromJNI();
                 break;
             default:
                 break;

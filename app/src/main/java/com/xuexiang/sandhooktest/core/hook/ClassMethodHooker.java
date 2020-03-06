@@ -24,6 +24,7 @@ import com.swift.sandhook.annotation.HookClass;
 import com.swift.sandhook.annotation.HookMethod;
 import com.swift.sandhook.annotation.HookMethodBackup;
 import com.swift.sandhook.annotation.HookMode;
+import com.swift.sandhook.annotation.MethodParams;
 import com.swift.sandhook.annotation.SkipParamCheck;
 import com.swift.sandhook.annotation.ThisObject;
 import com.xuexiang.sandhooktest.core.entity.TestClass;
@@ -46,7 +47,17 @@ public class ClassMethodHooker {
     @HookMethodBackup
     @SkipParamCheck
     static Method constructionMethodBackup;
+    /**
+     * 静态方法Hook
+     */
+    @HookMethodBackup("staticMethodHook")
+    @MethodParams({int.class, int.class})
+    static Method staticMethodBackup;
 
+
+    @HookMethodBackup("errorMethod")
+    @SkipParamCheck
+    static Method errorMethodBackup;
 
     @HookMethod
     public static void onConstructionHook(@ThisObject TestClass thiz, int a, String b, float c) throws Throwable {
@@ -57,6 +68,31 @@ public class ClassMethodHooker {
     }
 
 
+    @HookMethod("staticMethodHook")
+    @MethodParams({int.class, int.class})
+    public static int staticMethodHooked(int a, int b) {
+        Log.e("TestClassHook", "staticMethodHook be hooked");
+        try {
+            //Hook后进行+1的处理
+            return (int) staticMethodBackup.invoke(null, a, b) + 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
+
+    @HookMethod("errorMethod")
+    @HookMode(HookMode.INLINE)
+    public static void errorMethodHook(TestClass thiz) throws Throwable {
+        Log.e("TestClassHook", "errorMethod been hooked");
+        try {
+            SandHook.callOriginByBackup(errorMethodBackup, thiz);
+        } catch (Exception e) {
+            e.printStackTrace();
+            XToastUtils.toast("Hook到的异常:" + e.getMessage());
+            Log.e("TestClassHook", "error:" + e.getMessage());
+        }
+    }
 
 }
